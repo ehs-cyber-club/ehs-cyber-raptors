@@ -15,7 +15,7 @@
 
     body {
       background: black;
-      color: #ff3b3b;
+      color: white;
       overflow: hidden;
     }
 
@@ -32,70 +32,67 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      gap: 18px;
-      padding: 20px;
+      gap: 20px;
+      padding: 25px;
     }
 
     /* ===== TITLE ===== */
     .shimmer-title {
-      font-size: clamp(3rem, 6vw, 4.6rem);
+      font-size: clamp(3rem, 6vw, 4.7rem);
       font-weight: 900;
-      color: red;
-      position: relative;
-      text-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
-      overflow: hidden;
       letter-spacing: 2px;
+      color: #ff2b2b;
+
+      text-shadow:
+        0 0 6px rgba(58, 167, 255, 0.65),
+        0 0 14px rgba(58, 167, 255, 0.45),
+        0 0 25px rgba(255, 0, 0, 0.85),
+        0 0 45px rgba(255, 0, 0, 0.95);
+
+      animation: pulseGlow 4s ease-in-out infinite;
     }
 
-    /* Blue shimmer sweep */
-    .shimmer-title::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -70%;
-      width: 70%;
-      height: 100%;
-      background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(58, 167, 255, 0.85),
-        transparent
-      );
-      animation: shimmerSweep 5s infinite linear;
+    @keyframes pulseGlow {
+      0%, 100% {
+        text-shadow:
+          0 0 6px rgba(58, 167, 255, 0.55),
+          0 0 14px rgba(58, 167, 255, 0.35),
+          0 0 25px rgba(255, 0, 0, 0.75),
+          0 0 45px rgba(255, 0, 0, 0.85);
+      }
+
+      50% {
+        text-shadow:
+          0 0 10px rgba(58, 167, 255, 0.85),
+          0 0 20px rgba(58, 167, 255, 0.55),
+          0 0 35px rgba(255, 0, 0, 0.95),
+          0 0 60px rgba(255, 0, 0, 1);
+      }
     }
 
-    @keyframes shimmerSweep {
-      0% { left: -70%; }
-      100% { left: 130%; }
+    /* ===== CLUB NAME ===== */
+    .school-name {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #3aa7ff;
+      text-shadow: 0 0 14px rgba(58, 167, 255, 0.85);
     }
 
-    /* ===== DESCRIPTION TEXT ===== */
+    /* ===== DESCRIPTION ===== */
     p {
       max-width: 700px;
       font-size: 1.15rem;
-      color: #d0d8ff;
       line-height: 1.6;
-    }
-
-    .school-name {
-      color: #ff3b3b;
-      font-weight: bold;
-      text-shadow: 0 0 12px rgba(255, 0, 0, 0.85);
-    }
-
-    .made-by {
-      margin-top: 25px;
-      font-size: 0.95rem;
-      color: #6a7cff;
-      letter-spacing: 1px;
-      opacity: 0.85;
+      color: #d0d8ff;
     }
 
     /* ===== BUTTONS ===== */
     .buttons {
       display: flex;
       gap: 18px;
-      margin-top: 30px;
+      margin-top: 25px;
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -107,9 +104,10 @@
       padding: 14px 30px;
       font-size: 1rem;
       cursor: pointer;
-      border-radius: 12px;
-      transition: 0.25s;
+      border-radius: 10px;
+      transition: 0.2s;
       box-shadow: 0 0 18px rgba(255, 0, 0, 0.45);
+
       display: flex;
       align-items: center;
       gap: 10px;
@@ -118,14 +116,23 @@
     button:hover {
       background: #ff3b3b;
       color: black;
-      box-shadow: 0 0 35px rgba(255, 0, 0, 0.95);
-      transform: translateY(-3px);
+      box-shadow: 0 0 35px rgba(255, 0, 0, 0.9);
+      transform: translateY(-2px);
     }
 
     .social img {
       width: 18px;
       height: 18px;
       filter: invert(1);
+    }
+
+    /* ===== MADE BY TEXT ===== */
+    .made-by {
+      margin-top: 25px;
+      font-size: 0.95rem;
+      color: #6a7cff;
+      letter-spacing: 1px;
+      opacity: 0.85;
     }
 
     /* ===== FOOTER ===== */
@@ -149,9 +156,11 @@
     <h1 class="shimmer-title">Welcome, Cyber Raptors</h1>
 
     <p>
-      <span class="school-name">Eagle Crest High School Cybersecurity Club</span>
-      is a student-led club focused on learning real cybersecurity skills —
-      not just using tools, but understanding how systems truly work.
+      <span class="school-name">
+        Eagle Crest High School Cybersecurity Club
+      </span>
+
+      Helping kids understand how digital systems work and how to protect them.
       Open to all grades. No experience required.
     </p>
 
@@ -179,82 +188,82 @@
     © Cyber Raptors · Eagle Crest Cybersecurity Club
   </footer>
 
-<script>
-/* ===== Background Animation ===== */
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
+  <script>
+    /* ===== CANVAS BACKGROUND ===== */
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
 
-function resize() {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-addEventListener("resize", resize);
-resize();
-
-const nodes = [];
-const NODE_COUNT = 120;
-const MAX_DIST = 150;
-
-for (let i = 0; i < NODE_COUNT; i++) {
-  nodes.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4
-  });
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = 0; i < nodes.length; i++) {
-    const n = nodes[i];
-    n.x += n.vx;
-    n.y += n.vy;
-
-    if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
-    if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
-
-    ctx.fillStyle = "#ff3b3b";
-    ctx.beginPath();
-    ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
-    ctx.fill();
-
-    for (let j = i + 1; j < nodes.length; j++) {
-      const m = nodes[j];
-      const d = Math.hypot(n.x - m.x, n.y - m.y);
-
-      if (d < MAX_DIST) {
-        ctx.strokeStyle = `rgba(255,0,0,${1 - d / MAX_DIST})`;
-        ctx.beginPath();
-        ctx.moveTo(n.x, n.y);
-        ctx.lineTo(m.x, m.y);
-        ctx.stroke();
-      }
+    function resize() {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
     }
-  }
+    addEventListener("resize", resize);
+    resize();
 
-  requestAnimationFrame(animate);
-}
+    const nodes = [];
+    const NODE_COUNT = 120;
+    const MAX_DIST = 150;
 
-animate();
+    for (let i = 0; i < NODE_COUNT; i++) {
+      nodes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4
+      });
+    }
 
-/* ===== Navigation ===== */
-function goJoin() {
-  location.href = "join.html";
-}
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-function goDiscord() {
-  window.open("https://discord.gg/7RfR34ascE", "_blank");
-}
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
 
-function goInstagram() {
-  window.open(
-    "https://www.instagram.com/ehs_cybersecurity_club?igsh=amd6Nnk5MndjOWpk",
-    "_blank"
-  );
-}
-</script>
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+
+        ctx.fillStyle = "#ff3b3b";
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let j = i + 1; j < nodes.length; j++) {
+          const m = nodes[j];
+          const d = Math.hypot(n.x - m.x, n.y - m.y);
+
+          if (d < MAX_DIST) {
+            ctx.strokeStyle = `rgba(255,0,0,${1 - d / MAX_DIST})`;
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(m.x, m.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    /* ===== NAVIGATION ===== */
+    function goJoin() {
+      location.href = "join.html";
+    }
+
+    function goDiscord() {
+      window.open("https://discord.gg/7RfR34ascE", "_blank");
+    }
+
+    function goInstagram() {
+      window.open(
+        "https://www.instagram.com/ehs_cybersecurity_club?igsh=amd6Nnk5MndjOWpk",
+        "_blank"
+      );
+    }
+  </script>
 
 </body>
 </html>
