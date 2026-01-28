@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Welcome · Cyber Raptors</title>
+  <title>Cyber Raptors · EHS Cybersecurity Club</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -36,10 +36,48 @@
       padding: 20px;
     }
 
-    h1 {
-      font-size: clamp(2.6rem, 6vw, 4.2rem);
+    /* ===== MAIN TITLE ===== */
+    .glow-title {
+      font-size: clamp(2.9rem, 6vw, 4.6rem);
+      font-weight: bold;
       letter-spacing: 2px;
-      text-shadow: 0 0 22px red;
+
+      /* Blue text */
+      color: #3aa7ff;
+
+      /* Red neon glow */
+      text-shadow:
+        0 0 6px rgba(255, 0, 0, 0.6),
+        0 0 15px rgba(255, 0, 0, 0.85),
+        0 0 35px rgba(255, 0, 0, 1);
+
+      /* Twinkle animation */
+      animation: twinkleGlow 2s infinite alternate;
+    }
+
+    @keyframes twinkleGlow {
+      0% {
+        text-shadow:
+          0 0 6px rgba(255, 0, 0, 0.4),
+          0 0 14px rgba(255, 0, 0, 0.7),
+          0 0 25px rgba(255, 0, 0, 0.9);
+        transform: scale(1);
+      }
+
+      100% {
+        text-shadow:
+          0 0 12px rgba(255, 0, 0, 0.9),
+          0 0 25px rgba(255, 0, 0, 1),
+          0 0 50px rgba(255, 0, 0, 1);
+        transform: scale(1.04);
+      }
+    }
+
+    p {
+      max-width: 650px;
+      font-size: 1.15rem;
+      color: #d0d8ff;
+      line-height: 1.5;
     }
 
     .accent {
@@ -47,16 +85,10 @@
       text-shadow: 0 0 12px rgba(58,167,255,0.8);
     }
 
-    p {
-      max-width: 640px;
-      font-size: 1.1rem;
-      color: #d0d8ff;
-    }
-
     .buttons {
       display: flex;
       gap: 18px;
-      margin-top: 24px;
+      margin-top: 25px;
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -65,10 +97,10 @@
       background: transparent;
       border: 2px solid #ff3b3b;
       color: #ff3b3b;
-      padding: 14px 28px;
+      padding: 14px 30px;
       font-size: 1rem;
       cursor: pointer;
-      border-radius: 8px;
+      border-radius: 10px;
       transition: 0.2s;
       box-shadow: 0 0 18px rgba(255,0,0,0.45);
       display: flex;
@@ -79,7 +111,7 @@
     button:hover {
       background: #ff3b3b;
       color: black;
-      box-shadow: 0 0 32px rgba(255,0,0,0.9);
+      box-shadow: 0 0 35px rgba(255,0,0,0.9);
       transform: translateY(-2px);
     }
 
@@ -94,21 +126,26 @@
       bottom: 12px;
       width: 100%;
       text-align: center;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #6a7cff;
     }
   </style>
 </head>
+
 <body>
 
 <canvas id="bg"></canvas>
 
 <div class="center">
-  <h1>Welcome Cyber Raptors</h1>
+
+  <!-- ✅ UPDATED TITLE -->
+  <h1 class="glow-title">Welcome, Cyber Raptors</h1>
 
   <p>
-    <span class="accent">Eaglecrest High School Cybersecurity Club</span><br>
-    Understanding tools deeply, not just using them.
+    <span class="accent">Eagle Crest High School Cybersecurity Club</span><br><br>
+    Helping student undestand tools, not just use them.<br><br>
+    Open to all grades. No experience required.<br><br>
+    <b>Made for students, by one student.</b>
   </p>
 
   <div class="buttons">
@@ -127,11 +164,11 @@
 </div>
 
 <footer>
-  © Cyber Raptors · Made for students, by one student
+  © Cyber Raptors · Eagle Crest Cybersecurity Club
 </footer>
 
 <script>
-/* ===== Canvas Background (unchanged, trimmed for clarity) ===== */
+/* ===== Background Animation ===== */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
@@ -174,6 +211,7 @@ function animate() {
     for (let j = i + 1; j < nodes.length; j++) {
       const m = nodes[j];
       const d = Math.hypot(n.x - m.x, n.y - m.y);
+
       if (d < MAX_DIST) {
         ctx.strokeStyle = `rgba(255,0,0,${1 - d / MAX_DIST})`;
         ctx.beginPath();
@@ -186,15 +224,18 @@ function animate() {
 
   requestAnimationFrame(animate);
 }
+
 animate();
 
-/* ===== NAV ===== */
+/* ===== Navigation ===== */
 function goJoin() {
   location.href = "join.html";
 }
+
 function goDiscord() {
   window.open("https://discord.gg/7RfR34ascE", "_blank");
 }
+
 function goInstagram() {
   window.open(
     "https://www.instagram.com/ehs_cybersecurity_club?igsh=amd6Nnk5MndjOWpk",
