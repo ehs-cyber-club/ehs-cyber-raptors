@@ -36,59 +36,66 @@
       padding: 20px;
     }
 
-    /* ===== MAIN TITLE ===== */
-    .glow-title {
-      font-size: clamp(2.9rem, 6vw, 4.6rem);
-      font-weight: bold;
+    /* ===== TITLE ===== */
+    .shimmer-title {
+      font-size: clamp(3rem, 6vw, 4.6rem);
+      font-weight: 900;
+      color: red;
+      position: relative;
+      text-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
+      overflow: hidden;
       letter-spacing: 2px;
-
-      /* Blue text */
-      color: #3aa7ff;
-
-      /* Red neon glow */
-      text-shadow:
-        0 0 6px rgba(255, 0, 0, 0.6),
-        0 0 15px rgba(255, 0, 0, 0.85),
-        0 0 35px rgba(255, 0, 0, 1);
-
-      /* Twinkle animation */
-      animation: twinkleGlow 2s infinite alternate;
     }
 
-    @keyframes twinkleGlow {
-      0% {
-        text-shadow:
-          0 0 6px rgba(255, 0, 0, 0.4),
-          0 0 14px rgba(255, 0, 0, 0.7),
-          0 0 25px rgba(255, 0, 0, 0.9);
-        transform: scale(1);
-      }
-
-      100% {
-        text-shadow:
-          0 0 12px rgba(255, 0, 0, 0.9),
-          0 0 25px rgba(255, 0, 0, 1),
-          0 0 50px rgba(255, 0, 0, 1);
-        transform: scale(1.04);
-      }
+    /* Blue shimmer sweep */
+    .shimmer-title::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -70%;
+      width: 70%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(58, 167, 255, 0.85),
+        transparent
+      );
+      animation: shimmerSweep 5s infinite linear;
     }
 
+    @keyframes shimmerSweep {
+      0% { left: -70%; }
+      100% { left: 130%; }
+    }
+
+    /* ===== DESCRIPTION TEXT ===== */
     p {
-      max-width: 650px;
+      max-width: 700px;
       font-size: 1.15rem;
       color: #d0d8ff;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
-    .accent {
-      color: #3aa7ff;
-      text-shadow: 0 0 12px rgba(58,167,255,0.8);
+    .school-name {
+      color: #ff3b3b;
+      font-weight: bold;
+      text-shadow: 0 0 12px rgba(255, 0, 0, 0.85);
     }
 
+    .made-by {
+      margin-top: 25px;
+      font-size: 0.95rem;
+      color: #6a7cff;
+      letter-spacing: 1px;
+      opacity: 0.85;
+    }
+
+    /* ===== BUTTONS ===== */
     .buttons {
       display: flex;
       gap: 18px;
-      margin-top: 25px;
+      margin-top: 30px;
       flex-wrap: wrap;
       justify-content: center;
     }
@@ -100,9 +107,9 @@
       padding: 14px 30px;
       font-size: 1rem;
       cursor: pointer;
-      border-radius: 10px;
-      transition: 0.2s;
-      box-shadow: 0 0 18px rgba(255,0,0,0.45);
+      border-radius: 12px;
+      transition: 0.25s;
+      box-shadow: 0 0 18px rgba(255, 0, 0, 0.45);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -111,8 +118,8 @@
     button:hover {
       background: #ff3b3b;
       color: black;
-      box-shadow: 0 0 35px rgba(255,0,0,0.9);
-      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(255, 0, 0, 0.95);
+      transform: translateY(-3px);
     }
 
     .social img {
@@ -121,6 +128,7 @@
       filter: invert(1);
     }
 
+    /* ===== FOOTER ===== */
     footer {
       position: fixed;
       bottom: 12px;
@@ -134,38 +142,42 @@
 
 <body>
 
-<canvas id="bg"></canvas>
+  <canvas id="bg"></canvas>
 
-<div class="center">
+  <div class="center">
 
-  <!-- ✅ UPDATED TITLE -->
-  <h1 class="glow-title">Welcome, Cyber Raptors</h1>
+    <h1 class="shimmer-title">Welcome, Cyber Raptors</h1>
 
-  <p>
-    <span class="accent">Eagle Crest High School Cybersecurity Club</span><br><br>
-    Helping student undestand tools, not just use them.<br><br>
-    Open to all grades. No experience required.<br><br>
-    <b>Made for students, by one student.</b>
-  </p>
+    <p>
+      <span class="school-name">Eagle Crest High School Cybersecurity Club</span>
+      is a student-led club focused on learning real cybersecurity skills —
+      not just using tools, but understanding how systems truly work.
+      Open to all grades. No experience required.
+    </p>
 
-  <div class="buttons">
-    <button onclick="goJoin()">Apply to Join</button>
+    <div class="buttons">
+      <button onclick="goJoin()">Apply to Join</button>
 
-    <button class="social" onclick="goDiscord()">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/discord.svg">
-      Discord
-    </button>
+      <button class="social" onclick="goDiscord()">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/discord.svg">
+        Discord
+      </button>
 
-    <button class="social" onclick="goInstagram()">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg">
-      Instagram
-    </button>
+      <button class="social" onclick="goInstagram()">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg">
+        Instagram
+      </button>
+    </div>
+
+    <div class="made-by">
+      Made For Students By a Student
+    </div>
+
   </div>
-</div>
 
-<footer>
-  © Cyber Raptors · Eagle Crest Cybersecurity Club
-</footer>
+  <footer>
+    © Cyber Raptors · Eagle Crest Cybersecurity Club
+  </footer>
 
 <script>
 /* ===== Background Animation ===== */
