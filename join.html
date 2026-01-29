@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Join · Cyber Raptors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, sans-serif;
+    }
+
+    body {
+      background: black;
+      color: #ff3b3b;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+      margin-top: 8vh;
+      background: rgba(15, 0, 0, 0.92);
+      border: 2px solid #ff3b3b;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 0 35px rgba(255, 0, 0, 0.55);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 18px red;
+    }
+
+    p {
+      color: #d0d8ff;
+      margin-bottom: 25px;
+      font-size: 1rem;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 14px;
+      font-size: 0.95rem;
+      color: #ffb3b3;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ff3b3b;
+      background: black;
+      color: white;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      font-size: 1.05rem;
+      border-radius: 10px;
+      border: 2px solid #ff3b3b;
+      background: transparent;
+      color: #ff3b3b;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 0 20px rgba(255,0,0,0.45);
+    }
+
+    button:hover {
+      background: #ff3b3b;
+      color: black;
+      box-shadow: 0 0 35px rgba(255,0,0,0.9);
+    }
+
+    .back {
+      margin-top: 15px;
+      display: inline-block;
+      color: #3aa7ff;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 0.95rem;
+    }
+
+    #msg {
+      margin-top: 15px;
+      color: #3aa7ff;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="card">
+  <h1>Join Cyber Raptors</h1>
+
+  <p>
+    Apply to Eagle Crest High School’s Cybersecurity Club.
+    No experience required.
+  </p>
+
+  <form id="form">
+    <label>Full Name *</label>
+    <input type="text" id="name" required>
+
+    <label>Grade *</label>
+    <select id="grade" required>
+      <option value="">Select</option>
+      <option>9</option>
+      <option>10</option>
+      <option>11</option>
+      <option>12</option>
+    </select>
+
+    <label>School Email *</label>
+    <input type="email" id="email" required>
+
+    <label>Why do you want to join?</label>
+    <textarea id="experience"></textarea>
+
+    <button type="submit">Submit Application</button>
+  </form>
+
+  <div id="msg"></div>
+
+  <div class="back" onclick="goBack()">← Back to Home</div>
+</div>
+
+<script>
+/* ===== BACK BUTTON ===== */
+function goBack() {
+  location.href = "index.html";
+}
+
+/* ===== FORM (TEMP MODE) ===== */
+document.getElementById("form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  document.getElementById("msg").textContent =
+    "Form works. Backend connection comes next.";
+
+  this.reset();
+});
+
+/* ===== NEURAL BACKGROUND ===== */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+}
+addEventListener("resize", resize);
+resize();
+
+const nodes = [];
+const NODE_COUNT = 110;
+const MAX_DIST = 150;
+
+for (let i = 0; i < NODE_COUNT; i++) {
+  nodes.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < nodes.length; i++) {
+    const n = nodes[i];
+    n.x += n.vx;
+    n.y += n.vy;
+
+    if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+    if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+
+    ctx.fillStyle = "#ff3b3b";
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    for (let j = i + 1; j < nodes.length; j++) {
+      const m = nodes[j];
+      const d = Math.hypot(n.x - m.x, n.y - m.y);
+
+      if (d < MAX_DIST) {
+        ctx.strokeStyle = `rgba(58,167,255,${1 - d / MAX_DIST})`;
+        ctx.beginPath();
+        ctx.moveTo(n.x, n.y);
+        ctx.lineTo(m.x, m.y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
